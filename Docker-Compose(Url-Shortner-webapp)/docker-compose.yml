@@ -1,0 +1,21 @@
+services:
+  web:
+    image: python:3.9-slim  # Uses pre-built Python image
+    ports:
+      - "5000:5000"
+    environment:
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
+    volumes:
+      - ./app:/app  # Mounts your code directly
+    working_dir: /app
+    command: sh -c "pip install -r requirements.txt && python app.py"  # Installs deps & runs app
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
