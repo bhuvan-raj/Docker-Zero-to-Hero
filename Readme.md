@@ -22,6 +22,10 @@
 Containers are lightweight, portable environments that package applications with their dependencies, ensuring consistency across different computing environments.
 
 ## 2. Containers vs Virtual Machines
+
+![Alt Text](assets/docker1.png)
+
+
 | Feature            | Containers | Virtual Machines |
 |--------------------|-----------|-----------------|
 | Isolation         | Process-Level | Full OS-Level |
