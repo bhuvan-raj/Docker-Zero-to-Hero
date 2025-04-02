@@ -44,7 +44,7 @@ sudo systemctl start docker
 - Follow the installation steps.
 
 ## 5. Docker Architecture
- ![Alt Text](assets/docker.png)
+ ![Alt Text](assets/docker .png)
  
 - **Docker Client:** Sends commands to the Docker daemon.
 - **Docker Daemon:** Runs on the host machine and manages containers.
