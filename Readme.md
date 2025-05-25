@@ -87,7 +87,7 @@ The background service that runs on your system. It manages images, containers, 
 ## Docker Engine
 The complete Docker platform including the Daemon, CLI, REST API, container runtime (containerd), and build tools.
 
-## 6. Essential Docker Commands
+##  Essential Docker Commands
 ```bash
 docker version         # Check Docker version
 docker ps             # List running containers
@@ -100,10 +100,10 @@ docker stop <ID>      # Stop a container
 docker rm <ID>        # Remove a container
 ```
 
-## 7. What is a Dockerfile?
+##  What is a Dockerfile?
 A Dockerfile is a script containing instructions to automate the building of Docker images.
 
-## 8. Writing a Dockerfile
+##  Writing a Dockerfile
 ### **Basic Dockerfile Structure:**
 ```dockerfile
 - FFROM
@@ -195,7 +195,7 @@ A Dockerfile is a script containing instructions to automate the building of Doc
     Useful for creating parent images with predefined build steps.
 ```
 
-## 9. Dockerfile Example
+## Dockerfile Example
 ```dockerfile
 # Base Image
 FROM python:3.9-slim
@@ -225,7 +225,7 @@ CMD ["python3", "app.py"]
 ```
 
 
-## 10. Other Docker Tools
+##  Other Docker Tools
 - `docker inspect <container>` - Detailed info about a container.
 - `docker logs <container>` - View logs.
 - `docker exec -it <container> bash` - Access a running container.
@@ -304,11 +304,82 @@ Remove a user-defined network
 ```bash
 docker network rm my-bridge
 ```
-## 11. What is Docker Compose?
+
+## Docker multi-container connection hands-on Project
+
+https://github.com/bhuvan-raj/Docker-word-counter-app.git
+
+## Why do we need Docker storage
+Containers are ephermeral in nature, which means it can go down at any time. So inorder to store data we uses docker storages
+mainly there are two  types of storage:
+## Bind-mounts
+- Bind mounts link a specific folder on your host machine (e.g., /home/user/code) to a folder in your container.You control the exact path on the host.
+- Mainly bind-mounts are used in Development stages for Live sync between host files and container.
+
+
+How to create Bind-mounts
+```
+docker run -v /home/bubu/app:/app nginx
+```
+This binds /home/bubu/app from your host to /app in the container.
+
+using --mount
+```
+docker run --mount type=bind,source=/host/path,target=/container/path nginx
+```
+
+
+## Docker Volume
+
+- Docker volumes are a way to store data outside of containers so that the data doesn't get deleted when the container is removed. They allow containers to save important information like databases or files that need to persist, and multiple containers can share the same volume to access the same data. Docker volume is entirely managed by  Docker itself.
+- Stored in Docker's directory on the host (/var/lib/docker/volumes/ on Linux)
+- Can be named or anonymous
+
+Create and use a named volume
+```bash
+docker run -v my-data-volume:/app/data nginx
+```
+using --mount (more explicit)
+```
+docker run --mount source=my-data-volume,target=/app/data nginx
+```
+Creating an anonymous volume
+```
+docker run -v /app/data nginx
+```
+
+## Docker -v vs --mount
+- -v (--volume) is the older, simpler syntax that combines all options into one string with colon separators
+- --mount is more verbose but clearer and less error-prone, especially for complex configurations, while -v is shorter and faster to type for simple use cases. Both do the same thing, but --mount provides better error messages and is recommended for new users.
+
+##  Docker volume commands
+
+Create a volume
+```
+docker volume create my-volume
+```
+List all volumes
+```
+docker volume ls
+```
+ Inspect a volume
+ ```
+docker volume inspect my-volume
+```
+ Remove a volume
+ ```
+docker volume rm my-volume
+```
+ Remove all unused volumes
+ ```
+docker volume prune
+```
+
+##  What is Docker Compose?
 Docker Compose is a tool for defining and managing multi-container Docker applications using a simple YAML configuration file (docker-compose.yml). 
 It allows users to start, stop, and manage multiple interconnected containers with a single command.
 
-## 12. Docker Compose Format
+##  Docker Compose Format
 ```yaml
 version: "<version>"  # Defines the Docker Compose version (e.g., "3.8")
 
