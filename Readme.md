@@ -274,8 +274,36 @@ The Bridge network is the default network driver used when you don't specify a n
 - 172.17.255.255	 - Broadcast address (reserved)
 
 
-
-
+#Docker Networking Commands
+List all Docker networks
+```bash
+docker network ls
+```
+To inspect a specific network
+```bash
+docker network inspect <network-name>
+```
+Create a user-defined bridge network
+```bash
+docker network create my-bridge
+(by default docker creates a bridge network if --driver is not mentioned)
+```
+Run a container with a specific network
+```bash
+docker run -dit --name container1 --network my-bridge ubuntu
+```
+Connect an existing container to a network
+```bash
+docker network connect my-bridge container2
+```
+Disconnect a container from a network
+```bash
+docker network disconnect my-bridge container2
+```
+Remove a user-defined network
+```bash
+docker network rm my-bridge
+```
 ## 11. What is Docker Compose?
 Docker Compose is a tool for defining and managing multi-container Docker applications using a simple YAML configuration file (docker-compose.yml). 
 It allows users to start, stop, and manage multiple interconnected containers with a single command.
