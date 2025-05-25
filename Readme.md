@@ -265,14 +265,14 @@ Containers are isolated — they need a network to:
 The Bridge network is the default network driver used when you don't specify a network while starting a container. It’s designed for containers running on the same Docker host to communicate with each other.
 
 ## Reserved IPs in Bridge Network
----
-In a bridge network cidr 172.17.0.0/16, the following are reserved:
-IP
-172.17.0.0	 - Network address (reserved)
-172.17.0.1	 - Gateway (used by bridge interface on host)
-172.17.0.2 onwards	Assigned to containers
-172.17.255.255	 - Broadcast address (reserved)
----
+
+* In a bridge network cidr 172.17.0.0/16, the following are reserved:
+
+- 172.17.0.0	 - Network address (reserved)
+- 172.17.0.1	 - Gateway (used by bridge interface on host)
+- 172.17.0.2 onwards	Assigned to containers
+- 172.17.255.255	 - Broadcast address (reserved)
+
 
 
 
