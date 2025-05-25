@@ -243,25 +243,26 @@ Containers are isolated — they need a network to:
     • Download updates or dependencies from the internet
 
 ## Docker Network Types
- - Bridge (default)
+ ---
+ Bridge (default)
     • Default network for standalone containers.
     • Containers can communicate using container names (DNS resolution).
     • Has outbound internet access (via NAT).
- - Host
+   Host
     • Container shares the host’s network stack.
     • No isolation — useful for performance but less secure.
     • No port mapping needed (uses host ports directly).
- - None
+  None
     • Container is completely isolated from all networks.
     • No external or inter-container communication.
- - Overlay
+  Overlay
     • Used for multi-host container communication (requires Swarm).
     • Enables distributed networks across Docker nodes.
- - Macvlan
+  Macvlan
     • Assigns a MAC address to each container.
     • Containers appear as physical devices on the network.
     • Useful for direct network access like DHCP.
-
+--- 
 The Bridge network is the default network driver used when you don't specify a network while starting a container. It’s designed for containers running on the same Docker host to communicate with each other.
 
 ## Reserved IPs in Bridge Network
