@@ -56,6 +56,37 @@ sudo systemctl start docker
 - **Docker Registry:** Stores and distributes images (Docker Hub).
 - **Containers:** Running instances of Docker images.
 
+## 6.Enable Normal User to Use Docker
+```bash
+sudo usermod -aG docker username
+```
+## 7. Docker Container Lifecycles
+
+- 1. Created
+    • The container has been created, but it hasn’t started yet.
+    • State: CREATED
+    • Example: A container is created using docker create, but it hasn't been run yet.
+- 2. Running
+    • The container is currently running.
+    • State: RUNNING
+    • Example: After running a container using docker run, it enters this state and begins executing its commands.
+- 3. Paused
+    • The container is temporarily paused, meaning all its processes are stopped, but the container is still running.
+    • State: PAUSED
+    • Example: A container can be paused using docker pause <container_name_or_id> and later resumed with docker unpause.
+- 4. Stopped
+    • The container is stopped and no longer running.
+    • State: STOPPED
+    • Example: A container can be stopped using docker stop <container_name_or_id>. It is no longer executing any processes, but its data still exists.
+- 5. Exited
+    • The container has stopped running, either because the main process in the container completed or was manually stopped.
+    • State: EXITED
+    • Example: A container that runs a short-lived process and finishes execution will exit. You can check this state using docker ps -a.
+- 6. Dead
+    • This state is rare. A container is in this state when it encounters an internal error or when it becomes unresponsive.
+    • State: DEAD
+    • Example: A container in a "dead" state requires manual intervention for cleanup.
+
 ## 6. Essential Docker Commands
 ```bash
 docker version         # Check Docker version
