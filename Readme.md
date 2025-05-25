@@ -1,27 +1,10 @@
 # Docker Guide - README
 
-## Table of Contents
-1. [What are Containers?](#what-are-containers)
-2. [Containers vs Virtual Machines](#containers-vs-virtual-machines)
-3. [What is Docker?](#what-is-docker)
-4. [Installing Docker](#installing-docker)
-5. [Docker Architecture](#docker-architecture)
-6. [Essential Docker Commands](#essential-docker-commands)
-7. [What is a Dockerfile?](#what-is-a-dockerfile)
-8. [Writing a Dockerfile](#writing-a-dockerfile)
-9. [Dockerfile Example](#dockerfile-example)
-10. [Hands-on Project: Dockerfile](#hands-on-project-dockerfile)
-11. [Other Docker Tools](#other-docker-tools)
-12. [What is Docker Compose?](#what-is-docker-compose)
-13. [Docker Compose Format](#docker-compose-format)
-14. [Hands-on Project: Docker Compose](#hands-on-project-docker-compose)
 
----
-
-## 1. What are Containers?
+##  What are Containers?
 Containers are lightweight, portable environments that package applications with their dependencies, ensuring consistency across different computing environments.
 
-## 2. Containers vs Virtual Machines
+##  Containers vs Virtual Machines
 
 ![Alt Text](assets/docker1.png)
 
@@ -34,10 +17,10 @@ Containers are lightweight, portable environments that package applications with
 | Performance      | Near Native | Overhead Due to Hypervisor |
 | Portability      | High | Medium |
 
-## 3. What is Docker?
+##  What is Docker?
 Docker is a platform that enables developers to build, run, and share containerized applications easily.
 
-## 4. Installing Docker
+##  Installing Docker
 ### **Linux (Fedora example)**
 ```bash
 sudo dnf install docker
@@ -47,7 +30,7 @@ sudo systemctl start docker
 - Download from [Docker Official Site](https://www.docker.com/)
 - Follow the installation steps.
 
-## 5. Docker Architecture
+##  Docker Architecture
 ![Alt Text](assets/docker.png)
  
 - **Docker Client:** Sends commands to the Docker daemon.
@@ -56,11 +39,11 @@ sudo systemctl start docker
 - **Docker Registry:** Stores and distributes images (Docker Hub).
 - **Containers:** Running instances of Docker images.
 
-## 6.Enable Normal User to Use Docker
+## Enable Normal User to Use Docker
 ```bash
 sudo usermod -aG docker username
 ```
-## 7. Docker Container Lifecycles
+##  Docker Container Lifecycles
 
 - 1. Created
     • The container has been created, but it hasn’t started yet.
@@ -86,6 +69,23 @@ sudo usermod -aG docker username
     • This state is rare. A container is in this state when it encounters an internal error or when it becomes unresponsive.
     • State: DEAD
     • Example: A container in a "dead" state requires manual intervention for cleanup.
+
+## Docker Registry
+A Docker Registry is a storage and distribution system for Docker images. It holds images and allows users to upload (push) or download (pull) images. A registry can be private or public and is used to store and manage images for deployment in containers.
+    • A registry can be hosted on your own infrastructure or a cloud provider.
+    • Docker Hub is the default public registry for Docker images.
+    • Docker images are stored as repositories in the registry.
+## Docker Hub
+Docker Hub is the default public Docker registry provided by Docker Inc. It is a cloud-based repository where you can store and share Docker images. It is the largest collection of Docker images in the world and is widely used by developers to find and use pre-built images.
+    • Docker Hub is free for public repositories (private repositories require a paid account).
+    • It contains images for popular software, frameworks, and tools that can be pulled and used easily.
+    • You can create your own Docker Hub account to manage personal repositories.
+
+## Docker Daemon vs Docker Engine
+## Docker Daemon
+The background service that runs on your system. It manages images, containers, volumes, networks. Listens to Docker API requests.
+## Docker Engine
+The complete Docker platform including the Daemon, CLI, REST API, container runtime (containerd), and build tools.
 
 ## 6. Essential Docker Commands
 ```bash
@@ -229,6 +229,52 @@ CMD ["python3", "app.py"]
 - `docker inspect <container>` - Detailed info about a container.
 - `docker logs <container>` - View logs.
 - `docker exec -it <container> bash` - Access a running container.
+
+## Docker Networking
+## Docker networking allows containers to communicate:
+    • With each other
+    • With the host machine
+    • With the outside world (like the internet)
+      
+## Why Do Containers Need Networks?
+Containers are isolated — they need a network to:
+    • Talk to databases or services
+    • Serve websites or APIs to users
+    • Download updates or dependencies from the internet
+
+## Docker Network Types
+ - Bridge (default)
+    • Default network for standalone containers.
+    • Containers can communicate using container names (DNS resolution).
+    • Has outbound internet access (via NAT).
+ - Host
+    • Container shares the host’s network stack.
+    • No isolation — useful for performance but less secure.
+    • No port mapping needed (uses host ports directly).
+ - None
+    • Container is completely isolated from all networks.
+    • No external or inter-container communication.
+ - Overlay
+    • Used for multi-host container communication (requires Swarm).
+    • Enables distributed networks across Docker nodes.
+ - Macvlan
+    • Assigns a MAC address to each container.
+    • Containers appear as physical devices on the network.
+    • Useful for direct network access like DHCP.
+
+The Bridge network is the default network driver used when you don't specify a network while starting a container. It’s designed for containers running on the same Docker host to communicate with each other.
+
+## Reserved IPs in Bridge Network
+---
+In a bridge network cidr 172.17.0.0/16, the following are reserved:
+IP
+172.17.0.0	 - Network address (reserved)
+172.17.0.1	 - Gateway (used by bridge interface on host)
+172.17.0.2 onwards	Assigned to containers
+172.17.255.255	 - Broadcast address (reserved)
+---
+
+
 
 ## 11. What is Docker Compose?
 Docker Compose is a tool for defining and managing multi-container Docker applications using a simple YAML configuration file (docker-compose.yml). 
