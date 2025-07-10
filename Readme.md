@@ -412,8 +412,11 @@ volumes:
 networks:
   <network_name>:  # Define custom networks
     driver: <network_driver>  # Network driver (e.g., bridge, overlay)
+```
+## Docker Compose Hands-on Project
 
----
+**https://github.com/bhuvan-raj/Docker-Compose-WordCounter.git**
+
 
 ## Conclusion
 This README provides a structured guide to Docker, from basics to hands-on projects. Explore further with **Docker Networking, Volumes, and Kubernetes!**
