@@ -123,15 +123,15 @@ Think of WORKDIR as the cd (change directory) command in a terminal. When you se
 
 ### **COPY**
 
-    Copies files and directories from the host machine to the container.
+Copies files and directories from the host machine to the container.
 
-    Used for transferring static files like application code.
+Used for transferring static files like application code.
 
 ### **ADD**
 
-    Similar to COPY but also allows adding files from remote URLs.
+Similar to COPY but also allows adding files from remote URLs.
 
-    Can automatically extract .tar.gz archives.
+Can automatically extract .tar.gz archives.
 
 ### **LABEL**
 
