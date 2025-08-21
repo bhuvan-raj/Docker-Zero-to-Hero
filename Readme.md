@@ -18,7 +18,7 @@ Containers are lightweight, portable environments that package applications with
 | Portability      | High | Medium |
 
 ##  What is Docker?
-Docker is a platform that enables developers to build, run, and share containerized applications easily.
+Docker is an opensource containerization tool used to package applications along with its libraries and dependencies into small standalone and isolated units known as containers.
 
 ##  Installing Docker
 ### **Linux (Fedora example)**
@@ -75,11 +75,14 @@ A Docker Registry is a storage and distribution system for Docker images. It hol
     • A registry can be hosted on your own infrastructure or a cloud provider.
     • Docker Hub is the default public registry for Docker images.
     • Docker images are stored as repositories in the registry.
+    - **Public vs. Private:** Registries can be public, meaning anyone can access and pull images, or private, which requires authentication. Private registries are crucial for organizations to securely store their proprietary or sensitive application images without exposing them to the public.
+
 ## Docker Hub
 Docker Hub is the default public Docker registry provided by Docker Inc. It is a cloud-based repository where you can store and share Docker images. It is the largest collection of Docker images in the world and is widely used by developers to find and use pre-built images.
     • Docker Hub is free for public repositories (private repositories require a paid account).
     • It contains images for popular software, frameworks, and tools that can be pulled and used easily.
     • You can create your own Docker Hub account to manage personal repositories.
+    • On Docker Hub, images are organized into repositories. Each repository can contain multiple versions of an image, identified by tags (e.g., my-image:latest, my-image:1.0). This system allows for version control and easy retrieval of specific image versions.
 
 ## Docker Daemon vs Docker Engine
 ## Docker Daemon
@@ -93,107 +96,145 @@ docker version         # Check Docker version
 docker ps             # List running containers
   - docker ps -a      # List all containers
   - docker ps -q      # List container id only of the running containers   
-docker images         # List downloaded images
+docker images         # List downloaded images in your local machine
 docker rmi            # To remove an image
 docker run            # Run a container
 docker stop <ID>      # Stop a container
 docker rm <ID>        # Remove a container
+docker rm -rf <ID>    # To stop and remove a container forcefully
 ```
 
 ##  What is a Dockerfile?
-A Dockerfile is a script containing instructions to automate the building of Docker images.
+A Dockerfile is a textfile containing the instructions to build a docker image.
+
+## What is Docker Image?
+A docker image is a read-only template which consist of application along with its libraries and dependencies used to create containers.
 
 ##  Writing a Dockerfile
 ### **Basic Dockerfile Structure:**
-```dockerfile
-- FFROM
 
-    Specifies the base image to be used for building the container.
+### **FROM**
+The FROM instruction in a Dockerfile specifies the base image for your new image. It's the very first instruction in almost every Dockerfile and sets the foundation upon which your image is built.
+You can think of it as starting with a pre-built operating system or a minimal environment. For example, FROM ubuntu:22.04 starts your image with a copy of the Ubuntu 22.04 operating system, while FROM python:3.9-slim starts with an image that already has Python 3.9 installed.
 
-    Every Dockerfile must start with this instruction.
+### **WORKDIR**
+The WORKDIR instruction in a Dockerfile sets the working directory for any subsequent RUN, CMD, ENTRYPOINT, COPY, and ADD instructions.
+Think of WORKDIR as the cd (change directory) command in a terminal. When you set WORKDIR /app, all commands that follow it will execute from the /app directory inside the container's file system. This is a best practice for organizing your application files.
 
-- LABEL
-
-    Adds metadata such as the maintainer, version, and description of the image.
-
-- ENV
-
-    Defines environment variables that can be used within the container.
-
-    Helps in setting up configurations dynamically.
-
-- WORKDIR
-
-    Sets the working directory inside the container.
-
-    Ensures that all subsequent commands run within this directory.
-
-- COPY
+### **COPY**
 
     Copies files and directories from the host machine to the container.
 
     Used for transferring static files like application code.
 
-- ADD
+### **ADD**
 
     Similar to COPY but also allows adding files from remote URLs.
 
     Can automatically extract .tar.gz archives.
 
-- RUN
+### **LABEL**
 
-    Executes commands during the image build process.
+The LABEL instruction in a Dockerfile adds metadata to an image. This metadata is stored as key-value pairs and is non-executable, meaning it doesn't affect the image's runtime behavior.
+To check the labels of an image, execute the command `docker inspect <image-id>`
 
-    Commonly used for installing dependencies and setting up configurations.
+### **ENV**
+The ENV instruction in a Dockerfile sets environment variables within the image. These variables are essentially key-value pairs that can be accessed by the software running inside the container.
+Think of ENV as a way to set configuration variables that your application can use at runtime. This is a powerful feature for several reasons:
 
-- EXPOSE
+   **Configuration:** Instead of hardcoding values like database connection strings or API keys, you can define them as environment variables. This makes the image reusable in different environments (e.g., development, staging, production) without needing to rebuild it.
 
-    Declares the ports on which the container will listen.
+   **Non-sensitive Data:** While you shouldn't use ENV for secrets like passwords (use Docker secrets or other vault solutions for that), it's perfect for non-sensitive configuration, such as a port number, a default file path, or a feature flag.
 
-    Does not actually publish the port, it is just a documentation step.
-
-- CMD
-
-    Defines the default command that runs when the container starts.
-
-    Can be overridden at runtime.
-
-- ENTRYPOINT
-
-    Similar to CMD, but ensures that the specified command always runs.
-
-    Commonly used for defining fixed executable commands.
-
-- USER
-
-    Specifies the user under which the container should run.
-
-    Helps improve security by avoiding running as root.
-
-- VOLUME
-
-    Creates a mount point for data persistence.
-
-    Ensures that certain directories are not deleted when the container stops.
-
-- HEALTHCHECK
-
-    Defines a command to check the health of the running container.
-
-    Helps detect failures and restart the container if needed.
-
-- ARG
-
-    Defines build-time variables that can be passed while building the image.
-
-    Unlike ENV, these values are not retained in the final image.
-
-- ONBUILD
-
-    Specifies a trigger that runs when the image is used as a base image in another Dockerfile.
-
-    Useful for creating parent images with predefined build steps.
+EXAMPLE
 ```
+# Setting a single environment variable
+ENV GREETING="Hello, World!"
+
+# Setting multiple environment variables on a single line
+ENV APP_PORT=8000 DB_HOST="database"
+```
+
+### **RUN**
+
+Executes commands during the image build process.
+
+Commonly used for installing dependencies and setting up configurations.
+  
+### **CMD**
+
+Defines the default command that runs when the container starts.
+
+Can be overridden at runtime.
+
+### **ENTRYPOINT**
+
+Similar to CMD, but ensures that the specified command always runs.
+
+Commonly used for defining fixed executable commands.
+
+### **EXPOSE**
+
+Declares the ports on which the container will listen.
+
+Does not actually publish the port, it is just a documentation step.
+
+### **USER**
+
+Specifies the user under which the container should run.
+
+Helps improve security by avoiding running as root.
+
+### **VOLUME**
+- 
+Creates a mount point for data persistence.
+
+Ensures that certain directories are not deleted when the container stops.
+
+### **HEALTHCHECK**
+ The HEALTHCHECK instruction in a Dockerfile tells Docker how to test if a running container is still working correctly.
+
+Syntax
+The HEALTHCHECK instruction has three main parts:
+```
+HEALTHCHECK [OPTIONS] CMD command
+```
+**[OPTIONS]:** These control the behavior of the health check.
+
+**--interval=DURATION:** How often to run the check (default: 30s).
+
+**--timeout=DURATION:** How long to wait for a command to return (default: 30s).
+
+**--start-period=DURATION:** How long to wait before starting the health checks. This is useful for applications that need time to initialize (default: 0s).
+
+**--retries=N:** How many consecutive failures are needed to consider the container unhealthy (default: 3).
+
+**CMD:** The command to execute.
+
+### **ARG**
+* The ARG instruction in a Dockerfile defines a build-time variable. It allows you to pass a variable from the command line to your Dockerfile when you build the image.
+* ARG variables are only available during the image build process. They are not available in the final image after the build is complete. This is the key difference between ARG and ENV. ARG is for temporary values * needed for the build (e.g., a version number to download a package), whereas ENV is for permanent environment variables that the running container will need.
+* You can define an ARG with or without a default value. If no default value is provided, you must pass the value at build time using the `--build-arg` flag.
+* Example
+Let's say you want to build an image for a specific version of your application. Instead of changing the Dockerfile every time, you can use ARG:
+```
+# Define a build-time argument for the app version
+ARG APP_VERSION=1.0.0
+
+# Download the specified version of the application from a URL
+RUN wget https://example.com/myapp-v${APP_VERSION}.tar.gz
+```
+To build this image, you would use the following command:
+```
+docker build -t my-app:1.0.0 --build-arg APP_VERSION=1.0.0 .
+```
+
+### **ONBUILD**
+
+- Specifies a trigger that runs when the image is used as a base image in another Dockerfile.
+
+- Useful for creating parent images with predefined build steps.
+
 
 ## Dockerfile Example
 ```dockerfile
