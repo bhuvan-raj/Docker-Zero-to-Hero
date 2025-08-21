@@ -113,34 +113,34 @@ A docker image is a read-only template which consist of application along with i
 ##  Writing a Dockerfile
 ### **Basic Dockerfile Structure:**
 
-### **FROM**
+### **1. FROM**
 The FROM instruction in a Dockerfile specifies the base image for your new image. It's the very first instruction in almost every Dockerfile and sets the foundation upon which your image is built.
 You can think of it as starting with a pre-built operating system or a minimal environment. For example, FROM ubuntu:22.04 starts your image with a copy of the Ubuntu 22.04 operating system, while FROM python:3.9-slim starts with an image that already has Python 3.9 installed.
 
-### **WORKDIR**
+### **2. WORKDIR**
 The WORKDIR instruction in a Dockerfile sets the working directory for any subsequent RUN, CMD, ENTRYPOINT, COPY, and ADD instructions.
 Think of WORKDIR as the cd (change directory) command in a terminal. When you set WORKDIR /app, all commands that follow it will execute from the /app directory inside the container's file system. This is a best practice for organizing your application files.
 
-### **COPY**
+### **3. COPY**
 
-Copies files and directories from the host machine to the container.
+- Copies files and directories from the host machine to the container.
 
-Used for transferring static files like application code.
+- Used for transferring static files like application code.
 
-### **ADD**
+### **4. ADD**
 
-Similar to COPY but also allows adding files from remote URLs.
+- Similar to COPY but also allows adding files from remote URLs.
 
-Can automatically extract .tar.gz archives.
+- Can automatically extract .tar.gz archives.
 
-### **LABEL**
+### **5. LABEL**
 
-The LABEL instruction in a Dockerfile adds metadata to an image. This metadata is stored as key-value pairs and is non-executable, meaning it doesn't affect the image's runtime behavior.
-To check the labels of an image, execute the command `docker inspect <image-id>`
+- The LABEL instruction in a Dockerfile adds metadata to an image. This metadata is stored as key-value pairs and is non-executable, meaning it doesn't affect the image's runtime behavior.
+- To check the labels of an image, execute the command `docker inspect <image-id>`
 
-### **ENV**
-The ENV instruction in a Dockerfile sets environment variables within the image. These variables are essentially key-value pairs that can be accessed by the software running inside the container.
-Think of ENV as a way to set configuration variables that your application can use at runtime. This is a powerful feature for several reasons:
+### **6. ENV**
+- The ENV instruction in a Dockerfile sets environment variables within the image. These variables are essentially key-value pairs that can be accessed by the software running inside the container.
+- Think of ENV as a way to set configuration variables that your application can use at runtime. This is a powerful feature for several reasons:
 
    **Configuration:** Instead of hardcoding values like database connection strings or API keys, you can define them as environment variables. This makes the image reusable in different environments (e.g., development, staging, production) without needing to rebuild it.
 
@@ -155,44 +155,44 @@ ENV GREETING="Hello, World!"
 ENV APP_PORT=8000 DB_HOST="database"
 ```
 
-### **RUN**
+### **7. RUN**
 
-Executes commands during the image build process.
+- Executes commands during the image build process.
 
-Commonly used for installing dependencies and setting up configurations.
+- Commonly used for installing dependencies and setting up configurations.
   
-### **CMD**
+### **8. CMD**
 
-Defines the default command that runs when the container starts.
+- Defines the default command that runs when the container starts.
 
-Can be overridden at runtime.
+- Can be overridden at runtime.
 
-### **ENTRYPOINT**
+### **9. ENTRYPOINT**
 
-Similar to CMD, but ensures that the specified command always runs.
+- Similar to CMD, but ensures that the specified command always runs.
 
-Commonly used for defining fixed executable commands.
+- Commonly used for defining fixed executable commands.
 
-### **EXPOSE**
+### **10. EXPOSE**
 
-Declares the ports on which the container will listen.
+- Declares the ports on which the container will listen.
 
-Does not actually publish the port, it is just a documentation step.
+- Does not actually publish the port, it is just a documentation step.
 
-### **USER**
+### **11. USER**
 
-Specifies the user under which the container should run.
+- Specifies the user under which the container should run.
 
-Helps improve security by avoiding running as root.
+- Helps improve security by avoiding running as root.
 
-### **VOLUME**
-- 
-Creates a mount point for data persistence.
+### **12. VOLUME**
 
-Ensures that certain directories are not deleted when the container stops.
+- Creates a mount point for data persistence.
+
+- Ensures that certain directories are not deleted when the container stops.
 
 ### **HEALTHCHECK**
- The HEALTHCHECK instruction in a Dockerfile tells Docker how to test if a running container is still working correctly.
+- The HEALTHCHECK instruction in a Dockerfile tells Docker how to test if a running container is still working correctly.
 
 Syntax
 The HEALTHCHECK instruction has three main parts:
@@ -212,9 +212,9 @@ HEALTHCHECK [OPTIONS] CMD command
 **CMD:** The command to execute.
 
 ### **ARG**
-* The ARG instruction in a Dockerfile defines a build-time variable. It allows you to pass a variable from the command line to your Dockerfile when you build the image.
-* ARG variables are only available during the image build process. They are not available in the final image after the build is complete. This is the key difference between ARG and ENV. ARG is for temporary values * needed for the build (e.g., a version number to download a package), whereas ENV is for permanent environment variables that the running container will need.
-* You can define an ARG with or without a default value. If no default value is provided, you must pass the value at build time using the `--build-arg` flag.
+- The ARG instruction in a Dockerfile defines a build-time variable. It allows you to pass a variable from the command line to your Dockerfile when you build the image.
+- ARG variables are only available during the image build process. They are not available in the final image after the build is complete. This is the key difference between ARG and ENV. ARG is for temporary values * needed for the build (e.g., a version number to download a package), whereas ENV is for permanent environment variables that the running container will need.
+- You can define an ARG with or without a default value. If no default value is provided, you must pass the value at build time using the `--build-arg` flag.
 * Example
 Let's say you want to build an image for a specific version of your application. Instead of changing the Dockerfile every time, you can use ARG:
 ```
