@@ -281,7 +281,6 @@ CMD ["python3", "app.py"]
 Containers are isolated — they need a network to:
 - Talk to databases or services
 - Serve websites or APIs to users
--
 - Download updates or dependencies from the internet
 
 ## Docker Network Types
