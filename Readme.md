@@ -273,15 +273,16 @@ CMD ["python3", "app.py"]
 
 ## Docker Networking
 ## Docker networking allows containers to communicate:
-    • With each other
-    • With the host machine
-    • With the outside world (like the internet)
+- With each other
+- With the host machine
+- With the outside world (like the internet)
       
 ## Why Do Containers Need Networks?
 Containers are isolated — they need a network to:
-    • Talk to databases or services
-    • Serve websites or APIs to users
-    • Download updates or dependencies from the internet
+- Talk to databases or services
+- Serve websites or APIs to users
+-
+- Download updates or dependencies from the internet
 
 ## Docker Network Types
 
