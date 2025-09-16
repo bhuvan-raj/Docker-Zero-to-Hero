@@ -348,7 +348,7 @@ docker network rm my-bridge
 
 ## Docker multi-container connection hands-on Project
 
-https://github.com/bhuvan-raj/Docker-word-counter-app.git
+**https://github.com/bhuvan-raj/Docker-word-counter-app.git**
 
 ## Why do we need Docker storage
 Containers are ephermeral in nature, which means it can go down at any time. So inorder to store data we uses docker storages
