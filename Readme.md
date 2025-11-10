@@ -85,6 +85,7 @@ Docker Hub is the default public Docker registry provided by Docker Inc. It is a
     • On Docker Hub, images are organized into repositories. Each repository can contain multiple versions of an image, identified by tags (e.g., my-image:latest, my-image:1.0). This system allows for version control and easy retrieval of specific image versions.
 
 ## Docker Daemon vs Docker Engine
+Docker Engine is the full client-server platform that includes the Docker Daemon, CLI, and API to manage container lifecycle and operations. Docker Daemon is the background service within Docker Engine that executes commands, manages containers, and handles image and network operations.
 ## Docker Daemon
 The background service that runs on your system. It manages images, containers, volumes, networks. Listens to Docker API requests.
 ## Docker Engine
