@@ -197,7 +197,7 @@ ENV APP_PORT=8000 DB_HOST="database"
 Syntax
 The HEALTHCHECK instruction has three main parts:
 ```
-HEALTHCHECK [OPTIONS] CMD command
+HEALTHCHECK [OPTIONS] CMD
 ```
 **[OPTIONS]:** These control the behavior of the health check.
 
