@@ -455,6 +455,168 @@ Here are the essential commands for managing your Docker volumes directly.
 | `docker volume rm my-volume` | Deletes a specific volume. Fails if the volume is in use. |
 | `docker volume prune` | **Deletes all unused volumes** not associated with any container. |
 
+
+
+# Push Docker Image to Docker Hub (Complete Guide)
+
+## 🔹 1. Prerequisites
+
+Before starting, ensure:
+
+* Docker is installed → Docker
+* Docker daemon is running
+* You have an account on → Docker Hub
+
+---
+
+## 🔹 2. Create a Docker Hub Account
+
+1. Go to Docker Hub
+2. Sign up and verify your email
+3. Note your **Docker Hub username** (important for tagging)
+
+---
+
+## 🔹 3. Create a Public Repository (Registry)
+
+Docker Hub acts as a **public registry** by default.
+
+### Steps:
+
+1. Login to Docker Hub
+2. Click **"Create Repository"**
+3. Configure:
+
+   * **Repository Name** → `my-nginx-app`
+   * **Visibility** → **Public** ✅
+   * Description → optional
+4. Click **Create**
+
+
+
+---
+
+## 🔹 4. Create a Personal Access Token (PAT)
+
+Docker no longer recommends password-based CLI login.
+
+### Steps:
+
+1. Go to Docker Hub → Profile -  **Account Settings**
+2. Navigate to **Security**
+3. Click **New Access Token**
+4. Provide:
+
+   * Token name → `cli-access`
+   * Permissions → **Read,Write, Delete**
+5. Click **Generate**
+6. **Copy the token immediately** (you won’t see it again)
+
+---
+
+## 🔹 5. Login to Docker Hub using PAT
+
+Run:
+
+```bash
+docker login
+```
+
+Then enter:
+
+* Username → your Docker Hub username
+* Password → **your PAT (not your actual password)**
+
+👉 On success:
+
+```
+Login Succeeded
+```
+
+---
+
+## 🔹 6. Build Your Docker Image
+
+If you already have a Dockerfile:
+
+```bash
+docker build -t my-nginx-app .
+```
+
+To verify:
+
+```bash
+docker images
+```
+
+---
+
+## 🔹 7. Tag the Image (IMPORTANT)
+
+Docker requires tagging with your Docker Hub namespace.
+
+### Format:
+
+```
+<dockerhub-username>/<repository>:<tag>
+```
+
+### Example:
+
+```bash
+docker tag my-nginx-app <username>/my-nginx-app:latest
+```
+
+Example real command:
+
+```bash
+docker tag my-nginx-app bubu123/my-nginx-app:latest
+```
+
+---
+
+## 🔹 8. Push the Image to Docker Hub
+
+```bash
+docker push <username>/my-nginx-app:latest
+```
+
+Example:
+
+```bash
+docker push user123/my-nginx-app:latest
+```
+
+### Output:
+
+* Layers get uploaded
+* Status shows progress
+
+---
+
+## 🔹 9. Verify on Docker Hub
+
+1. Go to your repository
+2. You should see:
+
+   * Image tag → `latest`
+   * Image size
+   * Pull command
+
+---
+
+
+# 🧠 Conceptual Understanding
+
+* **Docker Image** → blueprint of your application
+* **Repository** → storage location in Docker Hub
+* **Tag** → version identifier
+* **Registry** → service storing images (Docker Hub is public registry)
+
+---
+
+
+
 ##  What is Docker Compose?
 Docker Compose is a tool for defining and managing multi-container Docker applications using a simple YAML configuration file (docker-compose.yml). 
 It allows users to start, stop, and manage multiple interconnected containers with a single command.
